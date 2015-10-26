@@ -206,7 +206,7 @@ The final pHash may depend on any of the tools used during the process. For
 example, if your version of [Pillow](https://pypi.python.org/pypi/Pillow/3.0.0)
 is too old, the pHash function might operate slightly differently and produce a
 slightly different pHash, resulting in a failing test. If tests are failing on
-your local machine, you should first make sure to have an up-to-date Pillow, .
+your local machine, you should first make sure to have an up-to-date Pillow.
 
 If you would like to contribute a test, just take a look at the examples in
 `test/testfunctions/`. Essentially a test consists of three things:

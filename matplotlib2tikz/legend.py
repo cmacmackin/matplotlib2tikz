@@ -3,7 +3,6 @@
 import warnings
 from . import color as mycol
 
-
 def draw_legend(data, obj):
     '''Adds legend code to the EXTRA_AXIS_OPTIONS.
     '''
@@ -66,8 +65,13 @@ def draw_legend(data, obj):
                       % obj._loc)
 
     legend_style = []
-    if position:
-        legend_style.append('at={(%.15g,%.15g)}' % (position[0], position[1]))
+    if obj._bbox_to_anchor:
+        trans = obj.parent.transAxes.inverted()
+        coords = trans.transform(obj._bbox_to_anchor.get_points())
+        legend_style.append('at={(%.15g,%.15g)}' % (coords[0,0], coords[0,1]))
+    else:
+        if position:
+            legend_style.append('at={(%.15g,%.15g)}' % (position[0], position[1]))
     if anchor:
         legend_style.append('anchor=%s' % anchor)
 
@@ -108,5 +112,10 @@ def draw_legend(data, obj):
     if childAlignment:
         cellAlign = 'legend cell align={%s}' % alignment
         data['extra axis options'].add(cellAlign)
+
+    # Get number of columns in legend
+    if obj._ncol > 1 and len(obj.legendHandles) > 1:
+        ncol = 'legend columns=%d' % min(obj._ncol, len(obj.legendHandles))
+        data['extra axis options'].add(ncol)
 
     return data
